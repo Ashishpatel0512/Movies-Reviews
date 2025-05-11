@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import API from "../api";
+import StarRating from "../components/StarRating";
 const EditReviewForm = ({ reviewId, initialRating, initialComment,edit,setEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [rating, setRating] = useState(initialRating);
@@ -45,7 +46,7 @@ const EditReviewForm = ({ reviewId, initialRating, initialComment,edit,setEdit }
 
       {isEditing && (
         <form onSubmit={handleSubmit} className="mt-4 space-y-3">
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-gray-700">Rating</label>
             <input
               type="number"
@@ -56,7 +57,11 @@ const EditReviewForm = ({ reviewId, initialRating, initialComment,edit,setEdit }
               required
               className="w-full border p-2 rounded mt-1"
             />
-          </div>
+          </div> */}
+           <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-3">Rating</label>
+                       <StarRating rating={rating} setRating={setRating} />
+            </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Comment</label>
             <textarea

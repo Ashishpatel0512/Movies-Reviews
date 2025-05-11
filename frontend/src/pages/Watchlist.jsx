@@ -7,7 +7,7 @@ export default function Watchlist() {
   const [watchlist, setWatchlist] = useState([]);
   const token = localStorage.getItem('token');
   const username = localStorage.getItem('username');
-
+ const [remove,setremove] = useState(false)
   useEffect(() => {
     if (!token) return;
     const fetchWatchlist = async () => {
@@ -19,7 +19,7 @@ export default function Watchlist() {
       }
     };
     fetchWatchlist();
-  }, [token]);
+  }, [token,remove,setremove]);
 
   if (!token) {
     return (
@@ -77,7 +77,7 @@ export default function Watchlist() {
                   visible: { opacity: 1, y: 0 },
                 }}
               >
-                <MovieCard movie={movie} />
+                <MovieCard movie={movie} remove={remove} setremove={setremove} />
               </motion.div>
             ))}
           </motion.div>

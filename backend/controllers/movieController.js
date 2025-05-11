@@ -54,6 +54,7 @@ const updateMovie = async (req, res) => {
 
 // DELETE /api/movies/:id
 const deleteMovie = async (req, res) => {
+  console.log(req.params)
   try {
     await Movie.findByIdAndDelete(req.params.id);
     res.json({ message: 'Movie deleted' });

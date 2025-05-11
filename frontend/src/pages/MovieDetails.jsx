@@ -5,6 +5,8 @@ import API from '../api';
 import { FaStar } from "react-icons/fa";
 import { motion } from 'framer-motion';
 import StarRating from '../components/StarRating';
+import { FaCheckDouble } from "react-icons/fa6";
+import AlertBox from '../components/AlertBox';
 
 const OMDB_API_KEY = 'be3db0cb'; // Replace with your OMDb key
 
@@ -16,7 +18,17 @@ export default function MovieDetails() {
   const username = localStorage.getItem('username');
   const [change, setChange] = useState(false);
   const [rating, setRating] = useState(0);
+  const [watchlist, setWatchlist] = useState(false);
+  const [changeWatchlist, setChangeWatchlist] = useState(false);
   console.log("rating", rating)
+  console.log("watchlist", watchlist)
+  //
+ 
+  const [showAlert, setShowAlert] = useState(false);
+
+  
+
+  // 
   useEffect(() => {
     const fetchMovie = async () => {
       const res = await axios.get(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${id}&plot=full`);
@@ -26,14 +38,25 @@ export default function MovieDetails() {
       const res = await API.get(`/reviews/${id}`);
       setReviews(res.data);
     };
+     const fetchWatchlist = async () => {
+     const res = await API.get('/movies/watchlist');
+       console.log(res.data);
+       const data = res.data.some(movie => movie.imdbID === id);
+       console.log("data", data)
+       setWatchlist(data);
+    };
+            
+    fetchWatchlist();
     fetchMovie();
     fetchReviews();
-  }, [id, change]);
+  }, [id, change,changeWatchlist, setChangeWatchlist]);
 
   const addToWatchlist = async () => {
     try {
       await API.post('movies/watchlist/add', { title: movie.Title });
-      alert('Added to watchlist!');
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000); // Auto-close after 3s
+      setChangeWatchlist(!changeWatchlist);
     } catch (err) {
       alert('Failed to add. Please login.');
     }
@@ -54,6 +77,11 @@ export default function MovieDetails() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-800 to-slate-900 text-white p-6">
+       <AlertBox
+        show={showAlert}
+        onClose={() => setShowAlert(false)}
+        message="✅ Movie added to Watchlist!"
+      />
       <div className="max-w-5xl mx-auto">
         <motion.div 
           className="flex flex-col md:flex-row gap-6 mb-10 bg-black/30 p-6 rounded-xl shadow-2xl backdrop-blur-lg"
@@ -75,12 +103,16 @@ export default function MovieDetails() {
               <p><strong>🎬 Director:</strong> {movie.Director}</p>
             </div>
             {username && (
-              <button
-                onClick={addToWatchlist}
-                className="mt-4 w-fit bg-cyan-600 px-4 py-2 rounded hover:bg-cyan-700 transition-transform hover:scale-105"
-              >
-                ➕ Add to Watchlist
-              </button>
+            <div>
+              {watchlist ?<span className='text-white flex items-center justify-left gap-3'><FaCheckDouble className='text-green-600 text-2xl' />  Your Watchlist</span> :(
+                <button
+                  onClick={addToWatchlist}
+                  className="mt-4 w-fit bg-cyan-600 px-4 py-2 rounded hover:bg-cyan-700 transition-transform hover:scale-105"
+                >
+                  ➕ Add to Watchlist
+                </button>
+                )}
+                </div>
             )}
           </div>
         </motion.div>
