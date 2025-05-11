@@ -16,7 +16,8 @@ const OMDB_API_KEY = 'be3db0cb'; // Replace with your OMDb key
 const addReview = async (req, res) => {
     const { id } = req.params;
     console.log(id);
-    const { reviewmsg } = req.body;
+  const { reviewmsg, rating } = req.body;
+  console.log("req.body", req.body);
   console.log("user", req.user);
   console.log("reviewmsg", reviewmsg);
   const fetchMovie = async () => {
@@ -31,7 +32,7 @@ const addReview = async (req, res) => {
       movieTitle: data.Title,
       moviePoster: data.Poster,
       userId: req.user._id,
-      rating:5,
+      rating:rating,
       comment: reviewmsg,
     });
     console.log("review")
