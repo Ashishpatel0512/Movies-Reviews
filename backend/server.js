@@ -8,6 +8,9 @@ const movieRoutes = require('./routes/movieRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const userRoutes = require('./routes/userRoutes');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./docs/swagger');
+
 dotenv.config();
 const app = express();
 
@@ -15,6 +18,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Swagger route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Routes
 app.use('/api/movies', movieRoutes);
 app.use('/api/reviews', reviewRoutes);
