@@ -2,14 +2,18 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaEye } from 'react-icons/fa';
 import { RiDeleteBinFill } from "react-icons/ri";
+import { useLocation } from 'react-router-dom';
 
 import API from '../api';
-export default function MovieCard({ movie,remove, setremove }) {
-   const Deletewatchlist =async (movieId) => {
+export default function MovieCard({ movie, remove, setremove }) {
+    const location = useLocation();
+
+  const Deletewatchlist =async (movieId) => {
      const res =await API.delete(`/movies/${movieId}`);
      setremove(!remove);
   }
   return (
+    <Link to={`/movie/${movie.imdbID}`}>
     <motion.div
       className="rounded-xl overflow-hidden backdrop-blur-lg bg-white bg-opacity-10 shadow-md hover:shadow-xl transition duration-300 cursor-pointer"
       whileHover={{ scale: 1.05 }}
@@ -31,15 +35,17 @@ export default function MovieCard({ movie,remove, setremove }) {
           className="mt-2 inline-flex items-center gap-1 text-yellow-400 hover:text-yellow-300 transition duration-200"
         >
           <FaEye className="text-sm" /> View Details
-        </Link>
-          <p onClick={() => { Deletewatchlist(movie._id) }}>
-            <RiDeleteBinFill />
-
-          </p>
+          </Link>
+          {location.pathname === '/watchlist' &&
+            <p onClick={() => { Deletewatchlist(movie._id) }}>
+              <RiDeleteBinFill />
+            </p>
+          }
           </div>
       </div>
      
-    </motion.div>
+      </motion.div>
+      </Link>
   );
 }
 
