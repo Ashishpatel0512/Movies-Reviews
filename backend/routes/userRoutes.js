@@ -1,65 +1,83 @@
 /**
  * @swagger
- * tags:
- *   name: Users
- *   description: User management
- */
-
-/**
- * @swagger
- * /api/users/register:
- *   post:
- *     summary: Register a new user
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - username
- *               - email
- *               - password
- *             properties:
- *               username:
- *                 type: string
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       201:
- *         description: User registered successfully
- *       400:
- *         description: Invalid input
- */
-
-/**
- * @swagger
- * /api/users/login:
- *   post:
- *     summary: Log in a user
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - email
- *               - password
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Login successful
- *       401:
- *         description: Invalid credentials
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         username:
+ *           type: string
+ *           description: The username of the user
+ *           example: john_doe
+ *         password:
+ *           type: string
+ *           description: The password of the user
+ *           example: password123
+ *       required:
+ *         - username
+ *         - password
+ *       description: User login and registration details
+ * 
+ *     AuthResponse:
+ *       type: object
+ *       properties:
+ *         token:
+ *           type: string
+ *           description: The JWT token for the authenticated user
+ *           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZjk5Mzg0LThjNjItNGU3Ni05MzFkLTljZjZlZDhhZDAwZCIsImlhdCI6MTYzOTg1NzMzN30.H3g4_Xl9X01_ol5lz_Kmx9G8Ug9swX3cdmn8EzuzwFk"
+ *         username:
+ *           type: string
+ *           description: The username of the authenticated user
+ *           example: john_doe
+ *       required:
+ *         - token
+ *         - username
+ *       description: Response containing the authentication token and username.
+ * 
+ * paths:
+ *   /api/users/register:
+ *     post:
+ *       summary: Register a new user
+ *       description: This endpoint registers a new user and returns an authentication token.
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       responses:
+ *         '201':
+ *           description: User successfully registered
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/AuthResponse'
+ *         '400':
+ *           description: User already exists
+ *         '500':
+ *           description: Server error
+ * 
+ *   /api/users/login:
+ *     post:
+ *       summary: Login an existing user
+ *       description: This endpoint logs in a user and returns an authentication token.
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       responses:
+ *         '200':
+ *           description: User successfully logged in
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/AuthResponse'
+ *         '401':
+ *           description: Invalid credentials
+ *         '500':
+ *           description: Server error
  */
 
 

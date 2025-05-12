@@ -2,10 +2,12 @@ import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import API from "../api";
 import StarRating from "../components/StarRating";
+import AlertBox from "../components/AlertBox";
 const EditReviewForm = ({ reviewId, initialRating, initialComment,edit,setEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [rating, setRating] = useState(initialRating);
   const [comment, setComment] = useState(initialComment);
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +29,9 @@ const EditReviewForm = ({ reviewId, initialRating, initialComment,edit,setEdit }
     //   }
           setEdit(!edit)
 
-      alert("Review updated successfully");
+        // alert("Review updated successfully");
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000); // Auto-close after 3s
       setIsEditing(false);
     } catch (err) {
       alert("Error updating review");
@@ -36,6 +40,11 @@ const EditReviewForm = ({ reviewId, initialRating, initialComment,edit,setEdit }
 
   return (
     <div className="border p-4 rounded shadow">
+       <AlertBox
+              show={showAlert}
+              onClose={() => setShowAlert(false)}
+              message="Review updated successfully"
+            />
       <button
         onClick={() => setIsEditing(!isEditing)}
         className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
