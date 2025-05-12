@@ -20,6 +20,7 @@ export default function MovieDetails() {
   const [rating, setRating] = useState(0);
   const [watchlist, setWatchlist] = useState(false);
   const [changeWatchlist, setChangeWatchlist] = useState(false);
+  const [ratingValue, setRatingValue] = useState(0);
   console.log("rating", rating)
   console.log("watchlist", watchlist)
   //
@@ -36,6 +37,19 @@ export default function MovieDetails() {
     };
     const fetchReviews = async () => {
       const res = await API.get(`/reviews/${id}`);
+      console.log("res", res.data)
+      const total = res.data.reduce((sum, review) => sum + review.rating, 0);
+      const average = total / res.data.length;
+      // return average.toFixed();
+      console.log("average", average.toFixed())
+      if (Number.isNaN(average)) {
+        setRatingValue(0);
+      }
+      else {
+        setRatingValue(average.toFixed());
+      }
+      
+     console.log("ratingValue", ratingValue)
       setReviews(res.data);
     };
      const fetchWatchlist = async () => {
@@ -93,6 +107,10 @@ export default function MovieDetails() {
             src={movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x445?text=No+Image'}
             alt={movie.Title}
             className="w-64 rounded-xl shadow-lg hover:scale-105 transition-transform duration-300"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://www.disneydining.com/wp-content/uploads/2021/09/000-avengersw.jpg'; // Default image URL
+            }}
           />
           <div className="flex flex-col justify-between">
             <div>
@@ -102,6 +120,13 @@ export default function MovieDetails() {
               <p><strong>📅 Released:</strong> {movie.Released}</p>
               <p><strong>🎬 Director:</strong> {movie.Director}</p>
             </div>
+            <div className='flex items-center justify-between mt-4'>
+             <div className="flex">
+                  {[...Array(Number(ratingValue))]?.map((_, index) => (
+                    <FaStar key={index} className="text-yellow-400 w-5 h-5" />
+                  ))}
+              </div>
+            {/* <div className='flex justify- items-center'>{ratingValue} <FaStar className="text-yellow-400 w-5 h-5" /></div> */}
             {username && (
             <div>
               {watchlist ?<span className='text-white flex items-center justify-left gap-3'><FaCheckDouble className='text-green-600 text-2xl' />  Your Watchlist</span> :(
@@ -113,7 +138,8 @@ export default function MovieDetails() {
                 </button>
                 )}
                 </div>
-            )}
+              )}
+              </div>
           </div>
         </motion.div>
 

@@ -22,9 +22,13 @@ export default function MovieCard({ movie, remove, setremove }) {
       transition={{ duration: 0.4 }}
     >
       <img
-        src={movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x445?text=No+Image'}
+        src={movie.Poster !== 'N/A' ? movie.Poster : 'https://www.disneydining.com/wp-content/uploads/2021/09/000-avengersw.jpg'}
         alt={movie.Title}
-        className="w-full h-72 object-cover"
+          className="w-full h-72 object-cover"
+          onError={(e) => {
+         e.target.onerror = null;
+        e.target.src = 'https://www.disneydining.com/wp-content/uploads/2021/09/000-avengersw.jpg'; // Default image URL
+      }}
       />
       <div className="p-3 text-white">
         <h3 className="font-semibold text-lg truncate">{movie.Title}</h3>
@@ -37,7 +41,7 @@ export default function MovieCard({ movie, remove, setremove }) {
           <FaEye className="text-sm" /> View Details
           </Link>
           {location.pathname === '/watchlist' &&
-            <p onClick={() => { Deletewatchlist(movie._id) }}>
+            <p onClick={(e) => { e.preventDefault(),Deletewatchlist(movie._id) }}>
               <RiDeleteBinFill />
             </p>
           }

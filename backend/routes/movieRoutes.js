@@ -5,8 +5,6 @@
  *     description: Movie search and data retrieval
  *   - name: Watchlist
  *     description: User's personal movie list
- *   - name: Favorites
- *     description: Mark and unmark movies as favorite
  *
  * components:
  *   schemas:
@@ -163,45 +161,7 @@
  *                   error:
  *                     type: string
  *                     example: "Failed to fetch movie data"
- *
- *   /api/movies/{id}/update:
- *     put:
- *       tags: [Favorites]
- *       summary: Update a movie's favorite status
- *       description: This endpoint updates the favorite status of a movie in the user's watchlist.
- *       parameters:
- *         - in: path
- *           name: id
- *           required: true
- *           schema:
- *             type: string
- *           description: The ID of the movie
- *           example: 60f93f8c19d7400bb87e9f1d
- *       security:
- *         - bearerAuth: []
- *       requestBody:
- *         required: true
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 favorite:
- *                   type: boolean
- *                   description: Whether the movie should be marked as a favorite
- *                   example: true
- *       responses:
- *         '200':
- *           description: Movie's favorite status updated successfully
- *           content:
- *             application/json:
- *               schema:
- *                 $ref: '#/components/schemas/Movie'
- *         '404':
- *           description: Movie not found
- *         '401':
- *           description: Unauthorized, no token provided
- *
+ * 
  *   /api/movies/{id}/delete:
  *     delete:
  *       tags: [Watchlist]
