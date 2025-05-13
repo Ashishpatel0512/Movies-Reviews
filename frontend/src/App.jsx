@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Watchlist from './pages/Watchlist';
 import MyReviews from './pages/MyReviews';
 import Forgot from './pages/forgot';
+import TrailerSearch from './pages/TrailerSearch';
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           <Route path="/watchlist" element={<Watchlist />} />
           <Route path="/myreviews" element={<MyReviews />} />
           <Route path="/forgot" element={<Forgot />} />
+          <Route path="/trailer/:name" element={<TrailerSearch />} />
+
         </Routes>
       </div>
     </Router>

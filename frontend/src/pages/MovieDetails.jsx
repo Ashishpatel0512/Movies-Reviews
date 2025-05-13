@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import API from '../api';
 import { FaStar } from "react-icons/fa";
@@ -126,6 +126,20 @@ export default function MovieDetails() {
                     <FaStar key={index} className="text-yellow-400 w-5 h-5" />
                   ))}
               </div>
+
+                <Link to={`/trailer/${movie.Title}  ${movie.Director} `}>
+       <motion.button
+      // onClick={onClick}
+      whileHover={{ scale: 1.1, rotate: 10 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="bg-gradient-to-r from-pink-600 to-purple-600 text-white font-semibold py-4 px-8 rounded-xl shadow-xl text-lg flex items-center justify-center gap-3 hover:scale-110 hover:shadow-2xl focus:outline-none"
+    >
+      <span className="text-2xl">▶️</span> Watch Trailer
+    </motion.button>
+      </Link>
             {/* <div className='flex justify- items-center'>{ratingValue} <FaStar className="text-yellow-400 w-5 h-5" /></div> */}
             {username && (
             <div>
@@ -139,7 +153,7 @@ export default function MovieDetails() {
                 )}
                 </div>
               )}
-              </div>
+            </div>
           </div>
         </motion.div>
 
@@ -153,7 +167,7 @@ export default function MovieDetails() {
         >
           💬 Reviews
         </motion.h2>
-
+        
         {username && (
           <motion.div 
             className="mb-6"
@@ -208,6 +222,30 @@ export default function MovieDetails() {
           )}
         </div>
       </div>
+      {/* <motion.button
+      // onClick={onClick}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full shadow-lg text-lg flex items-center justify-center gap-2"
+    >
+      <span>▶️</span> Watch Trailer
+    </motion.button> */}
+      {/* <Link to={`/trailer/${movie.Title}  ${movie.Director} `}>
+       <motion.button
+      // onClick={onClick}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full shadow-lg text-lg flex items-center justify-center gap-2"
+    >
+      <span>▶️</span> Watch Trailer
+    </motion.button>
+      </Link> */}
     </div>
   );
 }

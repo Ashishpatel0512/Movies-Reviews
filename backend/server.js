@@ -14,6 +14,8 @@ const swaggerSpec = require('./docs/swagger');
 const sendMail = require('./config/sendmail.js');
 dotenv.config();
 const app = express();
+const axios = require('axios');
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 
 // Middleware
 app.use(cors());
@@ -121,6 +123,38 @@ app.post("/forgot/password", (req, res) => {
 
   }
 })
+
+// Route to fetch movie trailer by movie name
+app.get('/api/movie-trailer', async (req, res) => {
+  const movieName = req.query.name;
+  console.log(movieName)
+  if (!movieName) {
+    return res.status(400).json({ error: 'Movie name is required.' });
+  }
+
+  try {
+    const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+      params: {
+        part: 'snippet',
+        maxResults: 1,
+        q: `${movieName} trailer`,
+        type: 'video',
+        key: YOUTUBE_API_KEY
+      }
+    });
+   console.log(response.data)
+    const video = response.data.items[0];
+
+    if (video) {
+      const trailerUrl = `https://www.youtube.com/watch?v=${video.id.videoId}`;
+      res.json({ trailerUrl });
+    } else {
+      res.status(404).json({ error: 'Trailer not found.' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching trailer.' });
+  }
+});
 
 
 // DB + Server Start
