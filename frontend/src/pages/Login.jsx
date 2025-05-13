@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import API from '../api';
 
@@ -75,6 +75,7 @@ export default function Login() {
           >
             Login
           </motion.button>
+          <Link to={'/forgot'}> <p className='text-center mt-5 text-blue-500'>Forgot Password</p></Link>
         </form>
       </motion.div>
     </div>
