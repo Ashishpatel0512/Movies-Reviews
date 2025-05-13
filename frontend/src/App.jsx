@@ -7,7 +7,6 @@ import MovieDetails from './pages/MovieDetails';
 import Header from './components/Header';
 import Watchlist from './pages/Watchlist';
 import MyReviews from './pages/MyReviews';
-import Forgot from './pages/forgot';
 import TrailerSearch from './pages/TrailerSearch';
 
 function App() {
@@ -22,7 +21,7 @@ function App() {
           <Route path="/movie/:id" element={<MovieDetails />} />
           <Route path="/watchlist" element={<Watchlist />} />
           <Route path="/myreviews" element={<MyReviews />} />
-          <Route path="/forgot" element={<Forgot />} />
+          {/* <Route path="/forgot" element={<Forgot />} /> */}
           <Route path="/trailer/:name" element={<TrailerSearch />} />
 
         </Routes>

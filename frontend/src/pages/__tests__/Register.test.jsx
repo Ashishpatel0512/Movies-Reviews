@@ -25,9 +25,10 @@ describe('Register Component', () => {
   it('renders register form', () => {
     renderWithRouter(<Register />);
     expect(screen.getByPlaceholderText(/username/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/emailid/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /register/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /register/i })
+    ).toBeInTheDocument();
   });
 
   it('shows error on failed registration', async () => {
@@ -39,9 +40,6 @@ describe('Register Component', () => {
 
     fireEvent.change(screen.getByPlaceholderText(/username/i), {
       target: { value: 'ashish' },
-    });
-    fireEvent.change(screen.getByPlaceholderText(/emailid/i), {
-      target: { value: 'ashish@example.com' },
     });
     fireEvent.change(screen.getByPlaceholderText(/password/i), {
       target: { value: '123456' },
@@ -55,7 +53,6 @@ describe('Register Component', () => {
   });
 
   it('calls API and navigates on successful registration', async () => {
-    const mockNavigate = vi.fn();
     const token = 'mocked-token';
 
     API.post.mockResolvedValueOnce({
@@ -67,9 +64,6 @@ describe('Register Component', () => {
     fireEvent.change(screen.getByPlaceholderText(/username/i), {
       target: { value: 'ashish' },
     });
-    fireEvent.change(screen.getByPlaceholderText(/emailid/i), {
-      target: { value: 'ashish@example.com' },
-    });
     fireEvent.change(screen.getByPlaceholderText(/password/i), {
       target: { value: '123456' },
     });
@@ -79,7 +73,6 @@ describe('Register Component', () => {
     await waitFor(() => {
       expect(API.post).toHaveBeenCalledWith('/users/register', {
         username: 'ashish',
-        emailid: 'ashish@example.com',
         password: '123456',
       });
       expect(localStorage.getItem('token')).toBe(token);

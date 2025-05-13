@@ -4,7 +4,7 @@ import MovieCard from '../components/MovieCard';
 import { FaSearch } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
-const OMDB_API_KEY = 'be3db0cb'; // Replace with your key
+const OMDB_API_KEY = 'be3db0cb'; 
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -95,70 +95,3 @@ export default function Home() {
 
 
 
-// // frontend/src/pages/Home.jsx
-// import { useState,useEffect } from 'react';
-// import axios from 'axios';
-// import MovieCard from '../components/MovieCard';
-
-// const OMDB_API_KEY = 'be3db0cb'; // 🔁 Replace with your real key
-
-// export default function Home() {
-//   const [query, setQuery] = useState('');
-//   const [movies, setMovies] = useState([]);
-//  console.log("movies", movies)
-//   // 
-//    useEffect(() => {
-//     const fetchMovies = async () => {
-//       try {
-//         // Fetch Hollywood movies using relevant keywords
-//       const res = await axios.get(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s='hollywood'&type=movie`);
-//         setMovies(res.data.Search);
-//       } catch (error) {
-//         console.error('Error fetching Hollywood movies:', error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchMovies();
-//   }, []);
-//   // 
-//   const searchMovies = async () => {
-//     if (!query) return;
-//     try {
-//       const res = await axios.get(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${query}&type=movie`);
-//       if (res.data.Search) {
-//         setMovies(res.data.Search);
-//       } else {
-//         setMovies([]);
-//       }
-//     } catch (err) {
-//       console.error('Search error:', err);
-//     }
-//   };
-
-//   return (
-//     <div className="max-w-4xl mx-auto mt-6">
-//       <div className="flex gap-2 mb-6">
-//         <input
-//           className="w-full p-2 border rounded"
-//           placeholder="Search movies..."
-//           value={query}
-//           onChange={(e) => setQuery(e.target.value)}
-//         />
-//         <button
-//           onClick={searchMovies}
-//           className="bg-blue-600 text-white px-4 rounded hover:bg-blue-700"
-//         >
-//           Search
-//         </button>
-//       </div>
-
-//       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-//         {movies.map((movie) => (
-//           <MovieCard key={movie.imdbID} movie={movie} />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
