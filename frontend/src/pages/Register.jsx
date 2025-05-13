@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import API from '../api';
 
 export default function Register() {
-  const [form, setForm] = useState({ username: '', password: '' });
+  const [form, setForm] = useState({ username: '',emailid:'', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -52,6 +52,16 @@ export default function Register() {
               placeholder="Username"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:outline-none"
               value={form.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <input
+              name="emailid"
+              placeholder="emailid"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:outline-none"
+              value={form.emailid}
               onChange={handleChange}
               required
             />
